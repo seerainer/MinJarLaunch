@@ -10,7 +10,7 @@
 #endif
 
 #ifdef _WIN32
-void showErrorAndExit(const char* message) {
+static void showErrorAndExit(const char* message) {
     int len = MultiByteToWideChar(CP_ACP, 0, message, -1, NULL, 0);
     wchar_t* wMessage = (wchar_t*)malloc(len * sizeof(wchar_t));
     MultiByteToWideChar(CP_ACP, 0, message, -1, wMessage, len);
@@ -20,13 +20,13 @@ void showErrorAndExit(const char* message) {
     exit(EXIT_FAILURE);
 }
 #else
-void showErrorAndExit(const char* message) {
+static void showErrorAndExit(const char* message) {
     fprintf(stderr, "%s\n", message);
     exit(EXIT_FAILURE);
 }
 #endif
 
-int is_java_in_path() {
+static int is_java_in_path() {
 #ifdef _WIN32
     char buffer[MAX_PATH];
     DWORD result = SearchPath(NULL, "java.exe", NULL, MAX_PATH, buffer, NULL);
