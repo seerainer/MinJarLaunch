@@ -12,7 +12,12 @@
 
 #ifdef _WIN32
 static void showErrorAndExit(const char* message) {
-    MessageBox(NULL, message, L"Error!", MB_ICONERROR | MB_OK);
+    int len = MultiByteToWideChar(CP_ACP, 0, message, -1, NULL, 0);
+    wchar_t* wMessage = (wchar_t*)malloc(len * sizeof(wchar_t));
+    MultiByteToWideChar(CP_ACP, 0, message, -1, wMessage, len);
+
+    MessageBoxW(NULL, wMessage, L"Error!", MB_ICONERROR | MB_OK);
+    free(wMessage);
     exit(EXIT_FAILURE);
 }
 #else
@@ -21,6 +26,7 @@ static void showErrorAndExit(const char* message) {
     exit(EXIT_FAILURE);
 }
 #endif
+
 
 static int is_java_in_path() {
 #ifdef _WIN32
@@ -72,7 +78,7 @@ int WINAPI wWinMain(
             CloseHandle(pi.hThread);
         }
         else {
-            MessageBox(NULL, L"No file specified!", L"Info!", MB_ICONEXCLAMATION | MB_OK);
+            MessageBoxW(NULL, L"No file specified!", L"Info!", MB_ICONEXCLAMATION | MB_OK);
             LocalFree(argv);
             return EXIT_FAILURE;
         }
@@ -80,7 +86,7 @@ int WINAPI wWinMain(
         LocalFree(argv);
     }
     else {
-        MessageBox(NULL, L"JAVA not found!\n\nDownload and install a JRE.", L"Info!", MB_ICONEXCLAMATION | MB_OK);
+        MessageBoxW(NULL, L"JAVA not found!\n\nDownload and install a JRE.", L"Info!", MB_ICONEXCLAMATION | MB_OK);
         return EXIT_FAILURE;
     }
 
