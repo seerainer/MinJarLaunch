@@ -12,7 +12,7 @@
 
 #ifdef _WIN32
 static void showErrorAndExit(const char* message) {
-    MessageBox(NULL, message, "Error!", MB_ICONERROR | MB_OK);
+    MessageBox(NULL, message, L"Error!", MB_ICONERROR | MB_OK);
     exit(EXIT_FAILURE);
 }
 #else
@@ -72,7 +72,7 @@ int WINAPI wWinMain(
             CloseHandle(pi.hThread);
         }
         else {
-            MessageBox(NULL, "No file specified!", "Info!", MB_ICONEXCLAMATION | MB_OK);
+            MessageBox(NULL, L"No file specified!", L"Info!", MB_ICONEXCLAMATION | MB_OK);
             LocalFree(argv);
             return EXIT_FAILURE;
         }
@@ -80,7 +80,7 @@ int WINAPI wWinMain(
         LocalFree(argv);
     }
     else {
-        MessageBox(NULL, "JAVA not found!\n\nDownload and install a JRE.", "Info!", MB_ICONEXCLAMATION | MB_OK);
+        MessageBox(NULL, L"JAVA not found!\n\nDownload and install a JRE.", L"Info!", MB_ICONEXCLAMATION | MB_OK);
         return EXIT_FAILURE;
     }
 
