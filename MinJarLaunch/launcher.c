@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <tchar.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -27,14 +26,12 @@ static void showErrorAndExit(const char* message) {
 }
 #endif
 
-
 static int is_java_in_path() {
 #ifdef _WIN32
     int exit_code = system("java -version > nul 2>&1");
 #else
     int exit_code = system("java -version > /dev/null 2>&1");
 #endif
-
     return exit_code == 0;
 }
 
@@ -45,7 +42,7 @@ int WINAPI wWinMain(
     _In_ PWSTR szCmdLine,
     _In_ int cmdShow) {
 
-    if (is_java_in_path) {
+    if (is_java_in_path()) {
         int argc;
         LPWSTR* argv = CommandLineToArgvW(GetCommandLineW(), &argc);
 
@@ -94,23 +91,27 @@ int WINAPI wWinMain(
 }
 #else
 int main(int argc, char* argv[]) {
-    checkJavaEnvironment();
+    if (is_java_in_path()) {
+        if (argc > 1) {
+            char* javaCmd[argc + 2];
+            javaCmd[0] = "java";
+            javaCmd[1] = "-jar";
+            for (int i = 1; i < argc; i++) {
+                javaCmd[i + 1] = argv[i];
+            }
+            javaCmd[argc + 1] = NULL;
 
-    if (argc > 1) {
-        char* javaCmd[argc + 2];
-        javaCmd[0] = "java";
-        javaCmd[1] = "-jar";
-        for (int i = 1; i < argc; i++) {
-            javaCmd[i + 1] = argv[i];
+            execvp("java", javaCmd);
+            perror("Error: java not found or error executing command");
+            return EXIT_FAILURE;
         }
-        javaCmd[argc + 1] = NULL;
-
-        execvp("java", javaCmd);
-        perror("Error: java not found or error executing command");
-        return EXIT_FAILURE;
+        else {
+            fprintf(stderr, "No file specified!\n");
+            return EXIT_FAILURE;
+        }
     }
     else {
-        fprintf(stderr, "No file specified!\n");
+        fprintf(stderr, "JAVA not found!\n\nDownload and install a JRE.\n");
         return EXIT_FAILURE;
     }
 
