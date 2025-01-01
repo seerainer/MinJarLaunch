@@ -10,7 +10,7 @@
 #endif
 
 #ifdef _WIN32
-static void showErrorAndExit(const char* message) {
+void showErrorAndExit(const char* message) {
     int len = MultiByteToWideChar(CP_ACP, 0, message, -1, NULL, 0);
     wchar_t* wMessage = (wchar_t*)malloc(len * sizeof(wchar_t));
     MultiByteToWideChar(CP_ACP, 0, message, -1, wMessage, len);
@@ -20,19 +20,37 @@ static void showErrorAndExit(const char* message) {
     exit(EXIT_FAILURE);
 }
 #else
-static void showErrorAndExit(const char* message) {
+void showErrorAndExit(const char* message) {
     fprintf(stderr, "%s\n", message);
     exit(EXIT_FAILURE);
 }
 #endif
 
-static int is_java_in_path() {
+int is_java_in_path() {
 #ifdef _WIN32
-    int exit_code = system("java -version > nul 2>&1");
+    char buffer[MAX_PATH];
+    DWORD result = SearchPath(NULL, "java.exe", NULL, MAX_PATH, buffer, NULL);
+    return result > 0;
 #else
-    int exit_code = system("java -version > /dev/null 2>&1");
+    const char* path = getenv("PATH");
+    if (path == NULL) {
+        return 0;
+    }
+
+    char* path_copy = strdup(path);
+    char* token = strtok(path_copy, ":");
+    while (token != NULL) {
+        char java_path[4096];
+        snprintf(java_path, sizeof(java_path), "%s/java", token);
+        if (access(java_path, X_OK) == 0) {
+            free(path_copy);
+            return 1;
+        }
+        token = strtok(NULL, ":");
+    }
+    free(path_copy);
+    return 0;
 #endif
-    return exit_code == 0;
 }
 
 #ifdef _WIN32
