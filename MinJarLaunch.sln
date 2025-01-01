@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinWinJarLaunch", "MinWinJarLaunch\MinWinJarLaunch.vcxproj", "{2C439667-D690-47B5-806B-3D8B350E1356}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MinJarLaunch", "MinJarLaunch\MinJarLaunch.vcxproj", "{2C439667-D690-47B5-806B-3D8B350E1356}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

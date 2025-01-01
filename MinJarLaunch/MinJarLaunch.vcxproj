@@ -24,7 +24,7 @@
     <ProjectGuid>{2c439667-d690-47b5-806b-3d8b350e1356}</ProjectGuid>
     <RootNamespace>JARLauncher</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>MinWinJarLaunch</ProjectName>
+    <ProjectName>MinJarLaunch</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -145,7 +145,7 @@
     <ClCompile Include="launcher.c" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="MinWinJarLaunch.res" />
+    <Resource Include="MinJarLaunch.res" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

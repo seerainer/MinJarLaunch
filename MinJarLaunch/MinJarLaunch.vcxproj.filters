@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="MinWinJarLaunch.res">
+    <Resource Include="MinJarLaunch.res">
       <Filter>Ressourcendateien</Filter>
     </Resource>
   </ItemGroup>
